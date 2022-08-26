@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
 const bcrypt = require("bcrypt");
+const jsonWebToken = require('jsonwebtoken')
 const salt = 10;
 
 router.post("/signup", async (req, res, next) => {
@@ -31,6 +32,36 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-router.get("/signup", async (req, res, next) => {});
+router.post('/login', async (req, res, next) => {
+  const {username, password} = req.body
+  if(!username || !password) {
+    return res.status(400).json({message: 'Please provide username and password'})
+  }
+  try {
+    const foundUser = await User.findOne({username})
+    if (!foundUser) {
+      return res.status(400).json({message: 'username or password incorrect'})
+    }
+
+    const matchingPassword = bcrypt.compareSync(password, foundUser.password)
+    // const matchingPassword = await bcrypt.compare(password, foundUser.password)
+    if (!matchingPassword) {
+      return res.status(400).json({ message: 'username or password incorrect' })
+    }
+
+    const payload = {username}
+    const token = jsonWebToken.sign(payload,process.env.TOKEN_SECRET, {
+      algorithm: 'HS256',
+      expiresIn: '1h'
+    } )
+
+    res.status(200).json(token)
+
+
+
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = router;
