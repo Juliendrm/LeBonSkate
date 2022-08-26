@@ -19,10 +19,12 @@ require("./config")(app);
 const allRoutes = require("./routes/index.routes");
 const trucks = require("./routes/trucks.routes.js");
 const board = require("./routes/board.routes");
+const auth = require("./routes/auth.routes");
 app.use("/api", allRoutes);
 // route destinations are prefixed in app before being exported to router
 app.use("/trucks", trucks);
 app.use("/board", board);
+app.use("/auth", auth);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

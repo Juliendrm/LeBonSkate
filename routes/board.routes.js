@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Board = require("../models/board.model");
 
 router.post("/", async (req, res, next) => {
-  console.log(`test`);
   try {
     const { brand, color, size } = req.body;
     const newBoard = await Board.create({
@@ -18,6 +17,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
+  console.log(`test`);
   try {
     const boardsFound = await Board.find();
     res.status(201).json(boardsFound);
