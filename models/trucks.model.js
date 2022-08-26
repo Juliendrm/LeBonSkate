@@ -1,10 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const truckSchema = new Schema({
-  board: String,
+  brand: String,
   color: String,
 });
 
-const Truck = model("Truck", truckSchema);
+const Trucks = model("Trucks", truckSchema);
 
-module.exports = Truck;
+module.exports = Trucks;

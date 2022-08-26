@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Board = require("../models/board.model");
 
+// seller sell wheels with that.
 router.post("/", async (req, res, next) => {
   try {
     const { brand, color, size } = req.body;
@@ -16,6 +17,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+// allow the buyer to find the wheels he wants.
 router.get("/", async (req, res, next) => {
   console.log(`test`);
   try {

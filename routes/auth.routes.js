@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const salt = 10;
 
 router.post("/signup", async (req, res, next) => {
-  console.log(`1`);
+  //console.log(`1`);
   const { username, password } = req.body;
   if (!password || !username) {
     return res.status(400).json({ message: "username and password requires" });
