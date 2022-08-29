@@ -3,8 +3,9 @@ const Trucks = require("../models/trucks.model");
 const Board = require("../models/board.model");
 const Wheels = require("../models/wheels.model");
 const Skateboard = require("../models/skateboard.model");
+const isAuth = require("../middleware/middleware");
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuth, async (req, res, next) => {
   try {
     const { board, trucks, wheels } = req.body;
     // const boardToBuild = await Board.findById(board);
@@ -15,6 +16,7 @@ router.post("/", async (req, res, next) => {
       board: board,
       trucks: trucks,
       wheels: wheels,
+      seller: req.user.id,
     });
 
     res.status(201).json(await newSkateboard.populate("trucks board wheels"));

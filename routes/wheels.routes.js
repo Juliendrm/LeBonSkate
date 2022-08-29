@@ -1,7 +1,8 @@
 const router = require("express").Router();
+const isAuth = require("../middleware/middleware");
 const Wheels = require("../models/wheels.model");
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuth, async (req, res, next) => {
   try {
     const { brand, color, abec, size } = req.body;
     const newWheels = await Wheels.create({
@@ -9,6 +10,7 @@ router.post("/", async (req, res, next) => {
       color: color,
       abec: abec,
       size: size,
+      seller: req.user.id,
     });
     console.log(newWheels);
     res.status(201).json(newWheels);
