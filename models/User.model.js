@@ -10,6 +10,7 @@ const userSchema = new Schema({
     type: Schema.Types.String,
     trim: true,
     unique: true,
+    required: true,
   },
   password: String,
   email: {
@@ -19,10 +20,17 @@ const userSchema = new Schema({
     unique: true,
     required: 'Email address is required',
     validate: [validateEmail, 'Please fill a valid email address'],
-    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
+    required: true,
 },
-  areaCode: Number,
-  phoneNumber: Number
+  areaCode: {
+    type: Schema.Types.Number,
+    required: true,
+  },
+  phoneNumber: {
+    type: Schema.Types.Number,
+    required: true,
+  }
 });
 
 const User = model("User", userSchema);
