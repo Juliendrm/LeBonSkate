@@ -1,16 +1,21 @@
 const router = require("express").Router();
 const Board = require("../models/board.model");
+const isAuth = require("../middleware/middleware");
 
 // seller sell wheels with that.
-router.post("/", async (req, res, next) => {
+router.post("/", isAuth, async (req, res, next) => {
+  //console.log("test");
+  //console.log(req.user._id);
+  //console.log("test");
   try {
     const { brand, color, size } = req.body;
     const newBoard = await Board.create({
       brand: brand,
       color: color,
       size: size,
+      seller: req.user.id,
     });
-    console.log(newBoard);
+    //console.log(newBoard);
     res.status(201).json(newBoard);
   } catch {
     res.status(400);
@@ -19,7 +24,7 @@ router.post("/", async (req, res, next) => {
 
 // allow the buyer to find the wheels he wants.
 router.get("/", async (req, res, next) => {
-  console.log(`test`);
+  //console.log(`test`);
   try {
     const boardsFound = await Board.find();
     res.status(201).json(boardsFound);
