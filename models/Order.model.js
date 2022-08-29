@@ -9,6 +9,7 @@ const orderModel = new Schema({
   buyer: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: [true, "must be logged in"]
   },
   seller: {
     type: Schema.Types.ObjectId,
@@ -18,11 +19,22 @@ const orderModel = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Skateboard",
   },
+  trucks: {
+    type: Schema.Types.ObjectId,
+    ref: "Trucks",
+  },
+  board: {
+    type: Schema.Types.ObjectId,
+    ref: "Board",
+  },
+  wheels: {
+    type: Schema.Types.ObjectId,
+    ref: "Wheels",
+  },
   timeStamps: true,
 });
 
-const Order = model("Oder", orderModel);
+const Order = model("Order", orderModel);
 
 module.exports = Order;
 
-//sdsdds
