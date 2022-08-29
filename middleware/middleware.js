@@ -22,4 +22,4 @@ const isAuth = async (req, res, next) => {
   next()
 }
 
-module.exports = { isAuth }
+module.exports = isAuth
