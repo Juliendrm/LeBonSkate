@@ -10,7 +10,7 @@ let password = "password"
 const generatedSalt = bcrypt.genSaltSync(salt);
 const saltedPassword = bcrypt.hashSync(password, generatedSalt);
 
-const users = [
+const usersSeed = [
   {
     username: "Julien",
     password: saltedPassword,
@@ -33,11 +33,11 @@ const users = [
     .then(async () => {
       await User.deleteMany();
 
-      const users = await User.create(users);
+      const users = await User.create(usersSeed);
 
       console.log(users);
       await mongoose.disconnect();
     })
     .catch ((error) => {
-        console.log(`unable to connect`. error.message)
+        console.log(`unable to connect`, error.message)
     })
