@@ -32,8 +32,9 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', isAuth, async (req, res, next) => {
   const {username, password} = req.body
+  console.log(req.user)
   if(!username || !password) {
     return res.status(400).json({message: 'Please provide username and password'})
   }
@@ -42,7 +43,6 @@ router.post('/login', async (req, res, next) => {
     if (!foundUser) {
       return res.status(400).json({message: 'username or password incorrect'})
     }
-
     const matchingPassword = bcrypt.compareSync(password, foundUser.password)
     // const matchingPassword = await bcrypt.compare(password, foundUser.password)
     if (!matchingPassword) {
@@ -52,7 +52,7 @@ router.post('/login', async (req, res, next) => {
     const payload = {username}
     const token = jsonWebToken.sign(payload,process.env.TOKEN_SECRET, {
       algorithm: 'HS256',
-      expiresIn: '1h'
+      expiresIn: '7d'
     } )
 
     res.status(200).json(token)
