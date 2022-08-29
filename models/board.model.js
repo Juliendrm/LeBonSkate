@@ -16,7 +16,7 @@ const boardSchema = new Schema({
       8.25,
       8.5,
       8.75,
-    ], message: "please proivde an accepted deck size"},
+    ], message: "please provide an accepted deck size"},
     required: true,
   },
   seller: {type: Schema.Types.ObjectId,
