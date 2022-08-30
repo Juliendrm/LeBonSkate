@@ -61,6 +61,6 @@ const usersSeed = [
   
 
   console.log(users);
-  await mongoose.disconnect();
+  process.exit()
 })()
 

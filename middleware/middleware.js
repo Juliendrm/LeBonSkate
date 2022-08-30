@@ -23,8 +23,6 @@ const isAuth = async (req, res, next) => {
   next();
 };
 
-function getRandomId(array) {
-  return array[Math.floor(Math.random()*array.length)]._id
-}
 
-module.exports = {isAuth, getRandomId};
+
+module.exports = isAuth;
