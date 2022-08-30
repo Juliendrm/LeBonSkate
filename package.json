@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed": "node ./seeds/seeds.js"
+    "seed": "node ./seeds/seed.js",
+    "trucks": "node ./seeds/trucks.seed.js",
+    "wheels": "node ./seeds/wheels.seed.js",
+    "boards": "node ./seeds/board.seed.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

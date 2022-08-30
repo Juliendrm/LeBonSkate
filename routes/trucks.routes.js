@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Trucks = require("../models/trucks.model");
 const Order = require("../models/Order.model");
-const isAuth = require("../middleware/middleware");
+const {isAuth} = require("../middleware/middleware");
 
 router.post("/", isAuth, async (req, res, next) => {
   try {

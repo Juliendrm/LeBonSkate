@@ -4,7 +4,7 @@ const Board = require("../models/board.model");
 const Wheels = require("../models/wheels.model");
 const Skateboard = require("../models/skateboard.model");
 const Order = require("../models/Order.model");
-const isAuth = require("../middleware/middleware");
+const {isAuth} = require("../middleware/middleware");
 
 router.post("/", isAuth, async (req, res, next) => {
   try {
