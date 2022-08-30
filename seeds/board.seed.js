@@ -3,7 +3,7 @@ require("../db/index")
 
 const Board = require("../models/board.model")
 const User = require("../models/User.model")
-const {getRandomId} = require("../middleware/middleware")
+const getRandomId = require("../utils/utils")
 
 const boardSeeds = [
 { brand: "Santa Cruz",
@@ -54,8 +54,9 @@ size: 8.5,
     boardSeeds.forEach((board) => {
         board.seller = getRandomId(allUsers)
     })
-    const boardWithSeller = await Board.create(boardSeeds)
-    console.log(boardWithSeller)
+    const boardsWithSeller = await Board.create(boardSeeds)
+    console.log(boardsWithSeller)
+    process.exit()
 })()
 
 

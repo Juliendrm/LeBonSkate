@@ -8,7 +8,8 @@
     "seed": "node ./seeds/seed.js",
     "trucks": "node ./seeds/trucks.seed.js",
     "wheels": "node ./seeds/wheels.seed.js",
-    "boards": "node ./seeds/board.seed.js"
+    "boards": "node ./seeds/board.seed.js",
+    "seed:all": "npm run seed && npm run trucks && npm run wheels && npm run boards"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

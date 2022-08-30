@@ -3,7 +3,7 @@ require("../db/index")
 
 const Trucks = require("../models/trucks.model")
 const User = require("../models/User.model")
-const {getRandomId} = require("../middleware/middleware")
+const getRandomId = require("../utils/utils")
 
 const trucksSeeds = [
     {brand: "Thunder Truck Co",
@@ -36,4 +36,5 @@ const trucksSeeds = [
     })
     const trucksSeedsWithSeller = await Trucks.create(trucksSeeds)
     console.log(trucksSeedsWithSeller)
+    process.exit()
 })()
