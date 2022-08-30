@@ -3,6 +3,7 @@ const Trucks = require("../models/trucks.model");
 const Board = require("../models/board.model");
 const Wheels = require("../models/wheels.model");
 const Skateboard = require("../models/skateboard.model");
+const Order = require("../models/Order.model");
 const isAuth = require("../middleware/middleware");
 
 router.post("/", isAuth, async (req, res, next) => {
@@ -25,6 +26,28 @@ router.post("/", isAuth, async (req, res, next) => {
   }
 });
 
+//create order for skateboard
+router.post("/:id", isAuth, async (req, res, next) => {
+  const skateboard = await Skateboard.findById(req.params.id);
+  const seller = await User.findById(skateboard.seller);
+  //console.log(board);
+  //console.log(seller);
+  //console.log(seller.id);
+  try {
+    const newOrder = await Order.create({
+      buyer: req.user.id,
+      seller: seller.id,
+    });
+    const populatedOrder = await Order.findById(newOrder.id).populate(
+      "buyer",
+      "-password"
+    );
+    res.status(201).json(populatedOrder);
+  } catch {
+    res.status(400);
+  }
+});
+
 router.get("/", async (req, res, next) => {
   try {
     const skateboardFound = await Skateboard.find();
@@ -35,4 +58,3 @@ router.get("/", async (req, res, next) => {
 });
 
 module.exports = router;
-// bwevwberrtw
