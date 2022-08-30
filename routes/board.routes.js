@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const Board = require("../models/board.model");
 const isAuth = require("../middleware/middleware");
+const User = require("../models/User.model");
+const Order = require("../models/Order.model");
+const { findById } = require("../models/User.model");
 
 // seller sell wheels with that.
 router.post("/", isAuth, async (req, res, next) => {
@@ -33,15 +36,20 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// Make an order for board
 router.post("/:id", isAuth, async (req, res, next) => {
-  const board = await Board.findById(req.params.id)
+  const board = await Board.findById(req.params.id);
+  const seller = await User.findById(board.seller);
+  //console.log(board);
+  //console.log(seller);
+  //console.log(seller.id);
   try {
     const newOrder = await Order.create({
       buyer: req.user.id,
-      seller: board.seller,
+      seller: seller.id,
     });
-    
-    res.status(201).json(newOrder.populate('buyer'));
+    const populatedOrder = await Order.findById(newOrder.id).populate("buyer");
+    res.status(201).json(populatedOrder);
   } catch {
     res.status(400);
   }
