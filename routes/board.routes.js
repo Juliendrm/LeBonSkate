@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Board = require("../models/board.model");
-const {isAuth} = require("../middleware/middleware");
+const isAuth = require("../middleware/middleware");
 const User = require("../models/User.model");
 const Order = require("../models/Order.model");
 
