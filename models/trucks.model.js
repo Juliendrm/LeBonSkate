@@ -6,6 +6,7 @@ const truckSchema = new Schema({
   color: {type: Schema.Types.String,
     required: [true, "please provide trucks color"]},
     seller: {type: Schema.Types.ObjectId,
+      ref: "User",
       required: [true, "you must be logged in"],
     }
 });

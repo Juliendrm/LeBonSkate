@@ -1,8 +1,11 @@
+
+require("./../db")
+
 const User = require("../models/User.model");
-const Trucks = require("../models/trucks.model");
-const Board = require("../models/board.model");
-const Wheels = require("../models/wheels.model");
-const Skateboard = require("../models/skateboard.model");
+// const Trucks = require("../models/trucks.model");
+// const Board = require("../models/board.model");
+// const Wheels = require("../models/wheels.model");
+// const Skateboard = require("../models/skateboard.model");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const salt = 10;
@@ -27,16 +30,13 @@ const usersSeed = [
   },
 ];
 
-mongoose
-  .connect(`mongodb://127.0.0.1:27017/Le-Bon-Skate`)
-  .then(async () => {
-    await User.deleteMany();
+(async function () {
+  console.log('here')
+  await User.deleteMany();
 
-    const users = await User.create(usersSeed);
+  const users = await User.create(usersSeed);
 
-    console.log(users);
-    await mongoose.disconnect();
-  })
-  .catch((error) => {
-    console.log(`unable to connect`, error.message);
-  });
+  console.log(users);
+  await mongoose.disconnect();
+})()
+
