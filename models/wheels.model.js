@@ -10,8 +10,6 @@ const wheelsSchema = new Schema({
     enum: [1, 3, 5, 7, 9, 11],
     required: true
   },
-  size: {type: Schema.Types.Number,
-    required: true},
   seller: {type: Schema.Types.ObjectId,
       required: [true, "you must be logged in"],
     }

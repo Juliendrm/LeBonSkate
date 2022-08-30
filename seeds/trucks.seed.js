@@ -3,13 +3,29 @@ require("../db/index")
 
 const Trucks = require("../models/trucks.model")
 const User = require("../models/User.model")
+const {getRandomId} = require("../middleware/middleware")
 
 const trucksSeeds = [
-   { brand: "something",
-    color: "black",
-},
-    { brand: "something else",
-color: "blue"}
+    {brand: "Thunder Truck Co",
+    color: "Silver"},
+    { brand: "Venture",
+    color: "Silver"},
+    { brand: "Independent",
+    color: "Silver"},
+    { brand: "Theeve Titanium Co",
+    color: "Silver"},
+    { brand: "Venture",
+    color: "Black"},
+    { brand: "Tensor",
+    color: "Silver"},
+    { brand: "ACE Trucks MFG",
+    color: "Silver"},
+    { brand: "Calibre Truck Co",
+    color: "Silver"},
+    { brand: "Paris",
+    color: "Black"},
+    { brand: "Gullwing",
+    color: "Silver"}
 ];
 
 
@@ -21,8 +37,3 @@ color: "blue"}
     const trucksSeedsWithSeller = await Trucks.create(trucksSeeds)
     console.log(trucksSeedsWithSeller)
 })()
-
-
-function getRandomId(array) {
-    return array[Math.floor(Math.random()*array.length)]._id
-}
