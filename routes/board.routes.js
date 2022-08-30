@@ -33,4 +33,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/:id", isAuth, async (req, res, next) => {
+  const board = await Board.findById(req.params.id)
+  try {
+    const newOrder = await Order.create({
+      buyer: req.user.id,
+      seller: board.seller,
+    });
+    
+    res.status(201).json(newOrder.populate('buyer'));
+  } catch {
+    res.status(400);
+  }
+});
+
 module.exports = router;
