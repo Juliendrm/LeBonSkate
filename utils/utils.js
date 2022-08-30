@@ -1,4 +1,4 @@
-const getRandomId = function (array) {
+const getRandomId = (array) => {
     return array[Math.floor(Math.random()*array.length)]._id
   }
 
