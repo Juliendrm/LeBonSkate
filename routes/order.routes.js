@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const isAuth = require("../middleware/middleware");
 const Order = require("../models/Order.model");
+const Trucks = require("../models/trucks.model");
+const Board = require("../models/board.model");
+const Wheels = require("../models/wheels.model");
+const Skateboard = require("../models/skateboard.model");
 
 router.get("/sell", isAuth, async (req, res) => {
   try {
@@ -30,6 +34,13 @@ router.patch("/sell/:id", isAuth, async (req, res) => {
       { approved: true },
       { new: true }
     );
+    if (approvedOrder.board) {
+        const soldBoard = await Board.findByIdAndUpdate(
+        { _id: approvedOrder.board },    
+        { sold : true },
+        { new: true },
+        )
+    }
     res.status(200).json(approvedOrder);
   } catch (error) {
     res.status(400).send(error.message);
