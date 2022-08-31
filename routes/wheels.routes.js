@@ -48,7 +48,7 @@ router.get("/", async (req, res, next) => {
   try {
     const wheelsFound = await Wheels.aggregate([
       {
-        $match: {},
+        $match: { sold: false },
       },
       {
         $lookup: {
