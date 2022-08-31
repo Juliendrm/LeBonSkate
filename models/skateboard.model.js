@@ -21,7 +21,11 @@ const skateboardSchema = new Schema({
   },
   seller: {type: Schema.Types.ObjectId,
     required: [true, "you must be logged in"],
-  }
+  },
+  sold: {
+    type: "boolean",
+    default: false,
+  },
 });
 
 const Skateboard = model("Skateboard", skateboardSchema);
