@@ -52,11 +52,16 @@ router.get("/", async (req, res, next) => {
 });
 
 //DELETE
-router.delete("/", (req, res, next) => {
-  const { id } = req.params;
-  Wheels.findByIdAndDelete(id)
-    .then((deleteInfos) => res.status(202).json(deleteInfos))
-    .catch((error) => next(error));
+router.delete("/:id", isAuth, async (req, res, next) => {
+  try {
+    const deleteWheels = await Wheels.findOneAndRemove({
+      _id: req.params.id,
+      seller: req.user.id,
+    });
+    res.status(200).json(deleteWheels);
+  } catch {
+    res.status(400);
+  }
 });
 
 module.exports = router;

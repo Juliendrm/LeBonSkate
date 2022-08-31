@@ -57,4 +57,16 @@ router.post("/:id", isAuth, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", isAuth, async (req, res, next) => {
+  try {
+    const deleteBoard = await Board.findOneAndRemove({
+      _id: req.params.id,
+      seller: req.user.id,
+    });
+    res.status(200).json(deleteBoard);
+  } catch {
+    res.status(400);
+  }
+});
+
 module.exports = router;
