@@ -1,5 +1,5 @@
-require("dotenv/config")
-require("../db/index")
+require("dotenv/config");
+require("../db/index");
 
 const User = require("../models/User.model");
 const Trucks = require("../models/trucks.model");
@@ -8,6 +8,7 @@ const Wheels = require("../models/wheels.model");
 const Skateboard = require("../models/skateboard.model");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const Order = require("../models/Order.model");
 const salt = 10;
 let password = "password";
 const generatedSalt = bcrypt.genSaltSync(salt);
@@ -57,10 +58,9 @@ const usersSeed = [
   await Trucks.deleteMany();
   await Wheels.deleteMany();
   await Skateboard.deleteMany();
+  await Order.deleteMany();
   const users = await User.create(usersSeed);
-  
 
   console.log(users);
-  process.exit()
-})()
-
+  process.exit();
+})();
