@@ -23,6 +23,10 @@ const boardSchema = new Schema({
     required: [true, "you must be logged in"],
     ref: "User",
   },
+  sold: {
+    type: "boolean",
+    default: false,
+  },
 });
 
 const Board = model("Board", boardSchema);

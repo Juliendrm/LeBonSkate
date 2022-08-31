@@ -8,7 +8,11 @@ const truckSchema = new Schema({
     seller: {type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "you must be logged in"],
-    }
+    },
+    sold: {
+      type: "boolean",
+      default: false,
+    },
 });
 
 const Trucks = model("Trucks", truckSchema);
