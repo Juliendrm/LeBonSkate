@@ -47,4 +47,16 @@ router.post("/:id", isAuth, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", isAuth, async (req, res, next) => {
+  try {
+    const deleteTruck = await Trucks.findOneAndRemove({
+      _id: req.params.id,
+      seller: req.user.id,
+    });
+    res.status(200).json(deleteTruck);
+  } catch {
+    res.status(400);
+  }
+});
+
 module.exports = router;
