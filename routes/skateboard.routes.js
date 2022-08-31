@@ -37,6 +37,7 @@ router.post("/:id", isAuth, async (req, res, next) => {
     const newOrder = await Order.create({
       buyer: req.user.id,
       seller: seller.id,
+      skateBoard: skateboard.id,
     });
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",

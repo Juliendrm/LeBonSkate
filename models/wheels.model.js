@@ -1,22 +1,26 @@
 const { Schema, model } = require("mongoose");
 
 const wheelsSchema = new Schema({
-  brand: {type: Schema.Types.String,
-    required: true},
-  color: {type: Schema.Types.String,
-    required: true},
+  brand: { type: Schema.Types.String, required: true },
+  color: { type: Schema.Types.String, required: true },
   abec: {
     type: Schema.Types.Number,
     enum: [1, 3, 5, 7, 9, 11],
-    required: true
+    required: true,
   },
-  seller: {type: Schema.Types.ObjectId,
-      required: [true, "you must be logged in"],
-    },
+  seller: {
+    type: Schema.Types.ObjectId,
+    required: [true, "you must be logged in"],
+  },
   sold: {
-      type: "boolean",
-      default: false,
-    },
+    type: "boolean",
+    default: false,
+  },
+  seller: {
+    type: Schema.Types.ObjectId,
+    required: [true, "you must be logged in"],
+    ref: "User",
+  },
 });
 
 const Wheels = model("Wheels", wheelsSchema);

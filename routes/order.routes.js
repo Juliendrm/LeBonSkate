@@ -29,18 +29,43 @@ router.get("/buy", isAuth, async (req, res) => {
 
 router.patch("/sell/:id", isAuth, async (req, res) => {
   try {
-    const approvedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
+    const approvedOrder = await Order.findOneAndUpdate(
+      { _id: req.params.id, seller: req.user.id },
       { approved: true },
       { new: true }
     );
-    if (approvedOrder.board) {
-        const soldBoard = await Board.findByIdAndUpdate(
-        { _id: approvedOrder.board },    
-        { sold : true },
-        { new: true },
-        )
+    if (!approvedOrder) {
+      console.log(`cannot approve orders of other seller`);
+    } else if (approvedOrder.board) {
+      soldItem = await Board.findByIdAndUpdate(
+        { _id: approvedOrder.board },
+        { sold: true },
+        { new: true }
+      );
+      console.log(approvedOrder);
+    } else if (approvedOrder.wheels) {
+      soldItem = await Wheels.findByIdAndUpdate(
+        { _id: approvedOrder.wheels },
+        { sold: true },
+        { new: true }
+      );
+      console.log(approvedOrder);
+    } else if (approvedOrder.trucks) {
+      soldItem = await Trucks.findByIdAndUpdate(
+        { _id: approvedOrder.trucks },
+        { sold: true },
+        { new: true }
+      );
+      console.log(approvedOrder);
+    } else if (approvedOrder.skateBoard) {
+      soldItem = await Skateboard.findByIdAndUpdate(
+        { _id: approvedOrder.skateBoard },
+        { sold: true },
+        { new: true }
+      );
+      console.log(approvedOrder);
     }
+
     res.status(200).json(approvedOrder);
   } catch (error) {
     res.status(400).send(error.message);

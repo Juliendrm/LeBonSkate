@@ -27,27 +27,32 @@ router.post("/", isAuth, async (req, res, next) => {
 // allow the buyer to find the wheels he wants.
 router.get("/", async (req, res, next) => {
   //console.log(`test`);
+  // below cross references board ID in Skateboard collection
+  // and only shows boards not in skateboard collection
   try {
     const boardsFound = await Board.aggregate([
       {
-        '$match': {}
-      }, {
-        '$lookup': {
-          'from': 'skateboards', 
-          'localField': '_id', 
-          'foreignField': 'board', 
-          'as': 'result'
-        }
-      }, {
-        '$match': {
-          'result.0': {
-            '$exists': false
-          }
-        }
-      }, {
-        '$unset': 'result'
-      }
-    ])
+        $match: {},
+      },
+      {
+        $lookup: {
+          from: "skateboards",
+          localField: "_id",
+          foreignField: "board",
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          "result.0": {
+            $exists: false,
+          },
+        },
+      },
+      {
+        $unset: "result",
+      },
+    ]);
     res.status(201).json(boardsFound);
   } catch {
     res.status(400);
@@ -65,7 +70,9 @@ router.post("/:id", isAuth, async (req, res, next) => {
     const newOrder = await Order.create({
       buyer: req.user.id,
       seller: seller.id,
+      board: board.id,
     });
+    console.log(board);
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",
       "-password"

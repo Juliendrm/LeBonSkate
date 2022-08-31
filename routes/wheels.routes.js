@@ -2,6 +2,7 @@ const router = require("express").Router();
 const isAuth = require("../middleware/middleware");
 const Order = require("../models/Order.model");
 const Wheels = require("../models/wheels.model");
+const User = require("../models/User.model");
 
 // POST
 router.post("/", isAuth, async (req, res, next) => {
@@ -26,9 +27,10 @@ router.post("/:id", isAuth, async (req, res, next) => {
   const wheels = await Wheels.findById(req.params.id);
   const seller = await User.findById(wheels.seller);
   try {
-    const newOrder = await Wheels.create({
+    const newOrder = await Order.create({
       buyer: req.user.id,
       seller: seller.id,
+      wheels: wheels.id,
     });
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",
@@ -46,24 +48,27 @@ router.get("/", async (req, res, next) => {
   try {
     const wheelsFound = await Wheels.aggregate([
       {
-        '$match': {}
-      }, {
-        '$lookup': {
-          'from': 'skateboards', 
-          'localField': '_id', 
-          'foreignField': 'wheels', 
-          'as': 'result'
-        }
-      }, {
-        '$match': {
-          'result.0': {
-            '$exists': false
-          }
-        }
-      }, {
-        '$unset': 'result'
-      }
-    ])
+        $match: {},
+      },
+      {
+        $lookup: {
+          from: "skateboards",
+          localField: "_id",
+          foreignField: "wheels",
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          "result.0": {
+            $exists: false,
+          },
+        },
+      },
+      {
+        $unset: "result",
+      },
+    ]);
     res.status(201).json(wheelsFound);
   } catch {
     res.status(400);
