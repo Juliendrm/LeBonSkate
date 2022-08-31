@@ -28,7 +28,26 @@ router.post("/", isAuth, async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   //console.log(`test`);
   try {
-    const boardsFound = await Board.find();
+    const boardsFound = await Board.aggregate([
+      {
+        '$match': {}
+      }, {
+        '$lookup': {
+          'from': 'skateboards', 
+          'localField': '_id', 
+          'foreignField': 'board', 
+          'as': 'result'
+        }
+      }, {
+        '$match': {
+          'result.0': {
+            '$exists': false
+          }
+        }
+      }, {
+        '$unset': 'result'
+      }
+    ])
     res.status(201).json(boardsFound);
   } catch {
     res.status(400);
