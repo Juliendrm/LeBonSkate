@@ -12,15 +12,17 @@ const skateboardSchema = new Schema({
   trucks: {
     type: Schema.Types.ObjectId,
     ref: "Trucks",
-    required: [true, "trucks are required to build a board"]
+    required: [true, "trucks are required to build a board"],
   },
   wheels: {
     type: Schema.Types.ObjectId,
     ref: "Wheels",
-    required: [true, "wheels are required to build a board"]
+    required: [true, "wheels are required to build a board"],
   },
-  seller: {type: Schema.Types.ObjectId,
+  seller: {
+    type: Schema.Types.ObjectId,
     required: [true, "you must be logged in"],
+    ref: "User",
   },
   sold: {
     type: "boolean",

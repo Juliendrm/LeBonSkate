@@ -23,25 +23,28 @@ router.get("/", async (req, res, next) => {
   try {
     const trucksFound = await Trucks.aggregate([
       {
-        '$match': {}
-      }, {
-        '$lookup': {
-          'from': 'skateboards', 
-          'localField': '_id', 
-          'foreignField': 'trucks', 
-          'as': 'result'
-        }
-      }, {
-        '$match': {
-          'result.0': {
-            '$exists': false
-          }
-        }
-      }, {
-        '$unset': 'result'
-      }
-    ])
-    
+        $match: {},
+      },
+      {
+        $lookup: {
+          from: "skateboards",
+          localField: "_id",
+          foreignField: "trucks",
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          "result.0": {
+            $exists: false,
+          },
+        },
+      },
+      {
+        $unset: "result",
+      },
+    ]);
+
     res.status(201).json(trucksFound);
   } catch {
     res.status(400);
@@ -51,12 +54,16 @@ router.get("/", async (req, res, next) => {
 // post trucks order
 router.post("/:id", isAuth, async (req, res, next) => {
   const trucks = await Trucks.findById(req.params.id);
+  console.log(trucks);
   const seller = await User.findById(trucks.seller);
+  console.log(seller);
   try {
-    const newOrder = await Trucks.create({
+    const newOrder = await Order.create({
       buyer: req.user.id,
       seller: seller.id,
+      trucks: trucks.id,
     });
+    console.log(newOrder);
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",
       "-password"
