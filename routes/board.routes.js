@@ -57,4 +57,14 @@ router.post("/:id", isAuth, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", isAuth, async (req, res, next) => {
+
+  try {
+    const board = await Board.findByIdAndDelete(req.params.id);
+    res.status(200).json(board);
+  } catch {
+    res.status(400);
+  }
+});
+
 module.exports = router;
