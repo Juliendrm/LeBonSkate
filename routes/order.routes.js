@@ -62,10 +62,24 @@ router.patch("/sell/:id", isAuth, async (req, res) => {
         { _id: approvedOrder.skateBoard },
         { sold: true },
         { new: true }
-      );
-      console.log(approvedOrder);
+      ).populate('board').populate('wheels').populate('trucks');
+      const soldBoard = await Board.findByIdAndUpdate(
+        { _id: approvedOrder.skateBoard.board },
+        { sold: true },
+        { new: true }
+      )
+      const soldWheels = await Wheels.findByIdAndUpdate(
+        { _id: approvedOrder.skateBoard.wheels },
+        { sold: true },
+        { new: true }
+      )
+      const soldTrucks = await Trucks.findByIdAndUpdate(
+        { _id: approvedOrder.skateBoard.trucks },
+        { sold: true },
+        { new: true }
+      )
+      console.log(soldItem, soldBoard, soldWheels, soldTrucks)
     }
-
     res.status(200).json(approvedOrder);
   } catch (error) {
     res.status(400).send(error.message);
