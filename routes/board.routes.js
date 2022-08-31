@@ -32,7 +32,7 @@ router.get("/", async (req, res, next) => {
   try {
     const boardsFound = await Board.aggregate([
       {
-        $match: {},
+        $match: { sold: false },
       },
       {
         $lookup: {

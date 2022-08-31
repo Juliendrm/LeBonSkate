@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
   try {
     const trucksFound = await Trucks.aggregate([
       {
-        $match: {},
+        $match: { sold: false },
       },
       {
         $lookup: {

@@ -51,7 +51,7 @@ router.post("/:id", isAuth, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const skateboardFound = await Skateboard.find();
+    const skateboardFound = await Skateboard.find({ sold: false});
     res.status(201).json(skateboardFound);
   } catch {
     res.status(400);
