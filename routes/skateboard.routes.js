@@ -5,6 +5,7 @@ const Wheels = require("../models/wheels.model");
 const Skateboard = require("../models/skateboard.model");
 const Order = require("../models/Order.model");
 const isAuth = require("../middleware/middleware");
+const User = require("../models/User.model");
 
 router.post("/", isAuth, async (req, res, next) => {
   try {
@@ -51,7 +52,7 @@ router.post("/:id", isAuth, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const skateboardFound = await Skateboard.find({ sold: false});
+    const skateboardFound = await Skateboard.find({ sold: false });
     res.status(201).json(skateboardFound);
   } catch {
     res.status(400);
