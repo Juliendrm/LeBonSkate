@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Trucks = require("../models/trucks.model");
 const Order = require("../models/Order.model");
 const isAuth = require("../middleware/middleware");
+const Skateboard = require("../models/skateboard.model")
 const User = require("../models/User.model");
 
 router.post("/", isAuth, async (req, res, next) => {
@@ -45,7 +46,7 @@ router.get("/", async (req, res, next) => {
       },
     ]);
 
-    res.status(201).json(trucksFound);
+    res.status(200).json(trucksFound);
   } catch {
     res.status(400);
   }
@@ -78,7 +79,7 @@ router.get("/selling", isAuth, async (req, res, next) => {
       },
     ]);
 
-    res.status(201).json(trucksFound);
+    res.status(200).json(trucksFound);
   } catch {
     res.status(400);
   }
@@ -112,9 +113,7 @@ router.delete("/:id", isAuth, async (req, res, next) => {
     const trucksPartOfSkateboard = await Skateboard.find({
       board: req.params.id,
     });
-
     console.log(trucksPartOfSkateboard);
-    console.log(`test`);
     if (trucksPartOfSkateboard.length !== 0) {
       return res
         .status(406)
@@ -122,14 +121,11 @@ router.delete("/:id", isAuth, async (req, res, next) => {
     }
 
     console.log(req.params.id, req.user.id);
-    const deleteTrucks = await Board.findOneAndRemove({
-      _id: req.params.id,
-      seller: req.user.id,
-    });
-    if (!deleteTrucks) {
-      res.sendStatus(404);
-    }
-    res.status(204).json;
+    const deleteTrucks = await Trucks.findOneAndRemove({
+      id: req.params.id,
+      seller: req.user._id,
+    })
+    res.status(204).json(deleteTrucks);
   } catch (err) {
     res.sendStatus(400);
   }

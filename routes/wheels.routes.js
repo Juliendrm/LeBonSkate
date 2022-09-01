@@ -2,6 +2,7 @@ const router = require("express").Router();
 const isAuth = require("../middleware/middleware");
 const Order = require("../models/Order.model");
 const Wheels = require("../models/wheels.model");
+const Skateboard = require("../models/skateboard.model")
 const User = require("../models/User.model");
 
 // POST
@@ -75,9 +76,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/selling", async (req, res, next) => {
+router.get("/selling", isAuth, async (req, res, next) => {
   //console.log(`test`);
   try {
+    console.log(`test`)
     const wheelsFound = await Wheels.aggregate([
       {
         $match: { sold: false,
@@ -102,6 +104,7 @@ router.get("/selling", async (req, res, next) => {
         $unset: "result",
       },
     ]);
+    console.log(`test2`)
     res.status(200).json(wheelsFound);
   } catch {
     res.status(400);
@@ -114,24 +117,17 @@ router.delete("/:id", isAuth, async (req, res, next) => {
     const wheelsPartOfSkateboard = await Skateboard.find({
       board: req.params.id,
     });
-
-    console.log(wheelsPartOfSkateboard);
-    console.log(`test`);
-    if (wheelsPartOfSkateBoard.length !== 0) {
+    if (wheelsPartOfSkateboard.length !== 0) {
       return res
         .status(406)
         .json({ message: `cannot delete componant of complete skateboard` });
     }
 
-    console.log(req.params.id, req.user.id);
-    const deleteWheels = await Board.findOneAndRemove({
-      _id: req.params.id,
-      seller: req.user.id,
-    });
-    if (!deleteWheels) {
-      res.sendStatus(404);
-    }
-    res.status(204).json;
+    const deleteWheels = await Wheels.findOneAndRemove({
+      id: req.params.id,
+      seller: req.user._id,
+    })
+    res.status(204).json(deleteWheels);
   } catch (err) {
     res.sendStatus(400);
   }
