@@ -51,6 +51,39 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/selling", isAuth, async (req, res, next) => {
+  try {
+    const trucksFound = await Trucks.aggregate([
+      {
+        $match: { sold: false,
+         seller: req.user._id},
+      },
+      {
+        $lookup: {
+          from: "skateboards",
+          localField: "_id",
+          foreignField: "trucks",
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          "result.0": {
+            $exists: false,
+          },
+        },
+      },
+      {
+        $unset: "result",
+      },
+    ]);
+
+    res.status(201).json(trucksFound);
+  } catch {
+    res.status(400);
+  }
+});
+
 // post trucks order
 router.post("/:id", isAuth, async (req, res, next) => {
   const trucks = await Trucks.findById(req.params.id);
