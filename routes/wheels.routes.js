@@ -78,13 +78,29 @@ router.get("/", async (req, res, next) => {
 //DELETE
 router.delete("/:id", isAuth, async (req, res, next) => {
   try {
-    const deleteWheels = await Wheels.findOneAndRemove({
+    const wheelsPartOfSkateboard = await Skateboard.find({
+      board: req.params.id,
+    });
+
+    console.log(wheelsPartOfSkateboard);
+    console.log(`test`);
+    if (wheelsPartOfSkateBoard.length !== 0) {
+      return res
+        .status(406)
+        .json({ message: `cannot delete componant of complete skateboard` });
+    }
+
+    console.log(req.params.id, req.user.id);
+    const deleteWheels = await Board.findOneAndRemove({
       _id: req.params.id,
       seller: req.user.id,
     });
-    res.status(200).json(deleteWheels);
-  } catch {
-    res.status(400);
+    if (!deleteWheels) {
+      res.sendStatus(404);
+    }
+    res.status(204).json;
+  } catch (err) {
+    res.sendStatus(400);
   }
 });
 
