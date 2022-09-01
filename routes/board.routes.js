@@ -124,27 +124,20 @@ router.post("/:id", isAuth, async (req, res, next) => {
 
 router.delete("/:id", isAuth, async (req, res, next) => {
   try {
-    const boardsPartOfSkateBoard = await Skateboard.find({
+    const boardPartOfSkateboard = await Skateboard.find({
       board: req.params.id,
     });
-
-    console.log(boardsPartOfSkateBoard);
-    console.log(`test`);
-    if (boardsPartOfSkateBoard.length !== 0) {
+    if (boardPartOfSkateboard.length !== 0) {
       return res
         .status(406)
         .json({ message: `cannot delete componant of complete skateboard` });
     }
 
-    console.log(req.params.id, req.user.id);
     const deleteBoard = await Board.findOneAndRemove({
-      _id: req.params.id,
-      seller: req.user.id,
-    });
-    if (!deleteBoard) {
-      res.sendStatus(404);
-    }
-    res.status(204).json;
+      id: req.params.id,
+      seller: req.user._id,
+    })
+    res.status(204).json(deleteBoard);
   } catch (err) {
     res.sendStatus(400);
   }
