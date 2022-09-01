@@ -69,7 +69,40 @@ router.get("/", async (req, res, next) => {
         $unset: "result",
       },
     ]);
-    res.status(201).json(wheelsFound);
+    res.status(200).json(wheelsFound);
+  } catch {
+    res.status(400);
+  }
+});
+
+router.get("/selling", async (req, res, next) => {
+  //console.log(`test`);
+  try {
+    const wheelsFound = await Wheels.aggregate([
+      {
+        $match: { sold: false,
+        seller: req.user._id },
+      },
+      {
+        $lookup: {
+          from: "skateboards",
+          localField: "_id",
+          foreignField: "wheels",
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          "result.0": {
+            $exists: false,
+          },
+        },
+      },
+      {
+        $unset: "result",
+      },
+    ]);
+    res.status(200).json(wheelsFound);
   } catch {
     res.status(400);
   }
