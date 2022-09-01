@@ -59,9 +59,9 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/selling", async (req, res, next) => {
+router.get("/selling", isAuth, async (req, res, next) => {
   try {
-    const skateboardFound = await Skateboard.find({ sold: false, seller: req.body._id });
+    const skateboardFound = await Skateboard.find({ sold: false, seller: req.user._id });
     res.status(201).json(skateboardFound);
   } catch {
     res.status(400);
