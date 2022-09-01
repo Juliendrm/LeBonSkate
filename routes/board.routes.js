@@ -84,6 +84,34 @@ router.post("/:id", isAuth, async (req, res, next) => {
 });
 
 router.delete("/:id", isAuth, async (req, res, next) => {
+  const boardsPartOfSkateBoard = await Board.aggregate([
+    {
+      $match: { 
+        _id: req.params.id,
+        sold: false },
+    },
+    {
+      $lookup: {
+        from: "skateboards",
+        localField: "_id",
+        foreignField: "board",
+        as: "result",
+      },
+    },
+    {
+      $match: {
+        "result.0": {
+          $exists: true,
+        },
+      },
+    },
+    {
+      $unset: "result",
+    },
+  ]);
+  if (boardsPartOfSkateBoard) {
+      res.status(406).json({message:`cannot delete componant of complete skateboard`})
+  }
   try {
     const deleteBoard = await Board.findOneAndRemove({
       _id: req.params.id,
