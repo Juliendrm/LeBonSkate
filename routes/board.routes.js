@@ -110,7 +110,7 @@ router.delete("/:id", isAuth, async (req, res, next) => {
     },
   ]);
   if (boardsPartOfSkateBoard) {
-      res.status(406).json({message:`cannot delete componant of complete skateboard`})
+      return res.status(406).json({message:`cannot delete componant of complete skateboard`})
   }
   try {
     const deleteBoard = await Board.findOneAndRemove({
