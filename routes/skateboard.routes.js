@@ -22,8 +22,8 @@ router.post("/", isAuth, async (req, res, next) => {
     });
 
     res.status(201).json(await newSkateboard.populate("trucks board wheels"));
-  } catch {
-    res.status(400);
+  } catch (err){
+    res.status(400).send(err.message);
   }
 });
 
@@ -43,10 +43,13 @@ router.post("/:id", isAuth, async (req, res, next) => {
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",
       "-password"
+    ).populate(
+      "seller",
+      "username",
     );
     res.status(201).json(populatedOrder);
-  } catch {
-    res.status(400);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
@@ -54,8 +57,8 @@ router.get("/", async (req, res, next) => {
   try {
     const skateboardFound = await Skateboard.find({ sold: false });
     res.status(201).json(skateboardFound);
-  } catch {
-    res.status(400);
+  } catch (err){
+    res.status(400).send(err.message);
   }
 });
 
@@ -63,8 +66,8 @@ router.get("/selling", isAuth, async (req, res, next) => {
   try {
     const skateboardFound = await Skateboard.find({ sold: false, seller: req.user._id });
     res.status(201).json(skateboardFound);
-  } catch {
-    res.status(400);
+  } catch (error){
+    res.status(400).send(error.message);
   }
 })
 
@@ -75,8 +78,8 @@ router.delete("/:id", isAuth, async (req, res, next) => {
       seller: req.user.id,
     });
     res.status(200).json(deleteSkateboard);
-  } catch {
-    res.status(400);
+  } catch (error){
+    res.status(400).send(error.message);
   }
 });
 

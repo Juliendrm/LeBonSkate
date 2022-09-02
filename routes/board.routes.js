@@ -114,7 +114,10 @@ router.post("/:id", isAuth, async (req, res, next) => {
     console.log(board);
     const populatedOrder = await Order.findById(newOrder.id).populate(
       "buyer",
-      "-password"
+      "-password",
+    ).populate(
+      "seller",
+      "username",
     );
     res.status(201).json(populatedOrder);
   } catch (error) {
