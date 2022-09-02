@@ -28,3 +28,11 @@ This API was built as part of the Ironhack Paris Web Dev Bootcamp<br><br>
   <li>MongoDB</li>
   <li>Mongoose</li>
 </ul>
+
+## API documentation 
+
+https://documenter.getpostman.com/view/22850951/VUxRNkrk
+
+## Heroku
+
+https://lebonskate2.herokuapp.com
