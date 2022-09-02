@@ -20,8 +20,8 @@ router.post("/", isAuth, async (req, res, next) => {
     });
     //console.log(newBoard);
     res.status(201).json(newBoard);
-  } catch {
-    res.status(400);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 
@@ -56,8 +56,8 @@ router.get("/", async (req, res, next) => {
     ]);
     console.log(boardsFound);
     res.status(200).json(boardsFound);
-  } catch {
-    res.status(400);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 
@@ -93,8 +93,8 @@ router.get("/selling", isAuth, async (req, res, next) => {
     ]);
     console.log(boardsFound);
     res.status(200).json(boardsFound);
-  } catch {
-    res.status(400);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 
@@ -117,8 +117,8 @@ router.post("/:id", isAuth, async (req, res, next) => {
       "-password"
     );
     res.status(201).json(populatedOrder);
-  } catch {
-    res.status(400);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 
@@ -138,8 +138,8 @@ router.delete("/:id", isAuth, async (req, res, next) => {
       seller: req.user._id,
     })
     res.status(204).json(deleteBoard);
-  } catch (err) {
-    res.sendStatus(400);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 });
 
